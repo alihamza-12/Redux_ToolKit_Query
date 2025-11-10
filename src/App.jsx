@@ -1,11 +1,27 @@
 // import { useEffect, useState } from "react";
-import { useGetTodosQuery } from "./RTKQuery/apiSlice";
+import { useState } from "react";
+import { useAddTodosMutation, useGetTodosQuery } from "./RTKQuery/apiSlice";
 
 function App() {
-  
-
-  const { data:todos, isError, isLoading } = useGetTodosQuery();
+  const [newTodo, setNewTodo] = useState("");
+  //fetch(GET Method)
+  const { data: todos, isError, isLoading } = useGetTodosQuery();
   // console.log(data);
+  const [addTodos] = useAddTodosMutation();
+  // console.log(addTodos)
+
+  //POST Method(Create)
+  const handleInput = (e) => {
+    setNewTodo(e.target.value);
+  };
+  const handleSubmit = () => {
+     addTodos({
+      text: newTodo,
+      completed: false,
+    });
+    setNewTodo("");
+  };
+  
 
   if (isLoading) return <p className="text-center mt-10">Loading todos...</p>;
   if (isError)
@@ -18,8 +34,8 @@ function App() {
 
       <div className="flex justify-center mt-10 gap-2 w-full">
         <input
-          // value={newTodo}
-          // onChange={handleInput}
+          value={newTodo}
+          onChange={handleInput}
           onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
           className="p-3 bg-gray-200 dark:bg-gray-700 dark:text-white rounded-lg w-1/3 outline-none focus:ring-2 focus:ring-blue-400"
           type="text"
@@ -27,7 +43,7 @@ function App() {
           required
         />
         <button
-          // onClick={handleSubmit}
+          onClick={handleSubmit}
           className="p-3 rounded-lg bg-green-500 dark:bg-emerald-700 text-white hover:bg-green-600 dark:hover:bg-emerald-800 cursor-pointer transition-all duration-200 hover:scale-105 shadow-md"
         >
           Add Todo
