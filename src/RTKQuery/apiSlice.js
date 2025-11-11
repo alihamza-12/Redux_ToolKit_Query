@@ -15,8 +15,8 @@ export const api = createApi({
       }),
     }),
     updateTodos: builder.mutation({
-      query: (todo) => ({
-        url: `/todos${todo.id}`,
+      query: ({ id, ...todo }) => ({
+        url: `/todos/${id}`,
         method: "PATCH",
         body: todo,
       }),
@@ -24,4 +24,9 @@ export const api = createApi({
   }),
 });
 
-export const { useGetTodosQuery, useAddTodosMutation ,useUpdateTodosMutation } = api;
+export const {
+  useGetTodosQuery,
+  useAddTodosMutation,
+  useUpdateTodosMutation,
+  useDeleteTodosMutation,
+} = api;

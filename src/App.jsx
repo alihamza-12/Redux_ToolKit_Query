@@ -1,6 +1,11 @@
 // import { useEffect, useState } from "react";
 import { useState } from "react";
-import { useAddTodosMutation, useGetTodosQuery } from "./RTKQuery/apiSlice";
+import {
+  useAddTodosMutation,
+  useDeleteTodosMutation,
+  useGetTodosQuery,
+  useUpdateTodosMutation,
+} from "./RTKQuery/apiSlice";
 
 function App() {
   const [newTodo, setNewTodo] = useState("");
@@ -9,19 +14,29 @@ function App() {
   // console.log(data);
   const [addTodos] = useAddTodosMutation();
   // console.log(addTodos)
+  const [updateTodo] = useUpdateTodosMutation();
 
   //POST Method(Create)
   const handleInput = (e) => {
     setNewTodo(e.target.value);
   };
   const handleSubmit = () => {
-     addTodos({
+    addTodos({
       text: newTodo,
       completed: false,
     });
     setNewTodo("");
   };
-  
+  // PATCH
+  const toggleTodo = (id, completed) => {
+    // console.log(id,todo)
+    updateTodo({
+      id,
+      completed: !completed,
+    });
+  };
+
+  // -----------------------------------------------------------------------------------------------------------
 
   if (isLoading) return <p className="text-center mt-10">Loading todos...</p>;
   if (isError)
@@ -60,14 +75,14 @@ function App() {
             <li className="p-3 w-full bg-blue-100 dark:bg-indigo-800 dark:text-white rounded flex justify-between items-center hover:bg-blue-200 dark:hover:bg-indigo-700">
               {todo.completed ? (
                 <button
-                  onClick={() => toggleTodo(todo.id)}
+                  onClick={() => toggleTodo(todo.id, todo.completed)}
                   className="p-1 hover:bg-blue-500 dark:hover:bg-blue-700 hover:text-white rounded-lg cursor-pointer mr-2"
                 >
                   ✅
                 </button>
               ) : (
                 <button
-                  onClick={() => toggleTodo(todo.id)}
+                  onClick={() => toggleTodo(todo.id, todo.completed)}
                   className="p-1 hover:bg-blue-500 dark:hover:bg-blue-700 hover:text-white rounded-lg cursor-pointer mr-2"
                 >
                   ⭕
