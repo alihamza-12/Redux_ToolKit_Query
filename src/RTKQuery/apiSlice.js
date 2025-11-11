@@ -25,7 +25,7 @@ export const api = createApi({
     updateTodos: builder.mutation({
       query: ({ id, ...todo }) => ({
         url: `/todos/${id}`,
-        method: "PATCH",
+        method: "PUT",
         body: todo,
       }),
       //Refresh After Update Todo
