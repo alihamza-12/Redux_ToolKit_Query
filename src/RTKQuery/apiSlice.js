@@ -3,7 +3,9 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
   // baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000" }),
-  baseQuery: fetchBaseQuery({ baseUrl: "https://rtkq-three.vercel.app/" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://6913b815f34a2ff1170cf8f6.mockapi.io/api",
+  }),
   //For Refresh
   tagTypes: ["Todos"],
   endpoints: (builder) => ({
