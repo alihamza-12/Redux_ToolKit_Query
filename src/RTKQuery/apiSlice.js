@@ -2,7 +2,7 @@ import { fetchBaseQuery } from "@reduxjs/toolkit/query";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: "https://rtkq-nine.vercel.app/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://rtkq-three.vercel.app/" }),
   //For Refresh
   tagTypes: ["Todos"],
   endpoints: (builder) => ({
