@@ -9,7 +9,7 @@ A modern Todo application built with React, Redux Toolkit Query (RTK Query), and
 - ✅ Optimistic updates and automatic cache invalidation
 - ✅ Loading states and error handling
 - ✅ Responsive UI with Tailwind CSS
-- ✅ Mock backend using json-server
+- ✅ Mock backend using json-server and MockAPI
 - ✅ Two API calling approaches demonstrated
 
 ## Technologies Used
@@ -19,7 +19,8 @@ A modern Todo application built with React, Redux Toolkit Query (RTK Query), and
 - **Redux Toolkit** - State management
 - **Vite** - Build tool and dev server
 - **Tailwind CSS** - Utility-first CSS framework
-- **json-server** - Mock REST API
+- **json-server** - Mock REST API for local development
+- **MockAPI** - Online mock API service for production-like testing
 - **ESLint** - Code linting
 
 ## Project Structure
@@ -81,12 +82,28 @@ Currently, the app uses the **Provider with Redux Store** approach, which allows
 
 ## API Endpoints
 
-The app interacts with a mock API (json-server) running on `http://localhost:3000`:
+The app interacts with two mock API services:
+
+### Local Development (json-server)
+
+- **Base URL**: `http://localhost:3000`
+- **Data Source**: `src/db.json` file
+- **Purpose**: Local development and testing
+
+### Production-like Testing (MockAPI)
+
+- **Base URL**: `https://6913b815f34a2ff1170cf8f6.mockapi.io/api`
+- **Data Source**: Online mock API service from [MockAPI.io](https://mockapi.io/projects)
+- **Purpose**: Production-like testing with persistent data
+
+### Available Endpoints
 
 - `GET /todos` - Fetch all todos
 - `POST /todos` - Create a new todo
-- `PATCH /todos/:id` - Update a todo (toggle completion)
+- `PUT /todos/:id` - Update a todo (toggle completion)
 - `DELETE /todos/:id` - Delete a todo
+
+Currently configured to use **MockAPI** for production-like testing.
 
 ## Data Flow
 
@@ -109,7 +126,7 @@ The `App.jsx` component handles all CRUD operations using RTK Query hooks:
 
 - `useGetTodosQuery()`: Fetches todos data with loading/error states
 - `useAddTodosMutation()`: Adds new todo
-- `useUpdateTodosMutation()`: Updates todo completion status
+- `useUpdateTodosMutation()`: Updates todo completion status (using PUT method)
 - `useDeleteTodosMutation()`: Deletes todo
 
 #### Functions
@@ -129,7 +146,7 @@ The `App.jsx` component handles all CRUD operations using RTK Query hooks:
 3. **`toggleTodo(id, completed)`**
 
    - Toggles completion status of a todo
-   - Calls `updateTodo` mutation with inverted `completed` value
+   - Calls `updateTodo` mutation with inverted `completed` value using PUT method
    - Triggered on ✅/⭕ button click
 
 4. **`removeTodo(id)`**
@@ -159,19 +176,23 @@ The `App.jsx` component handles all CRUD operations using RTK Query hooks:
    npm install
    ```
 
-3. **Start the mock API server**
+3. **Start the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+   Open [http://localhost:5173](http://localhost:5173) in your browser
+
+   The app is configured to use MockAPI by default. For local development with json-server:
+
+4. **Optional: Start local mock API server**
 
    ```bash
    npm run json-server
    ```
 
-   This starts json-server on `http://localhost:3000` serving `src/db.json`
-
-4. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-   Open [http://localhost:5173](http://localhost:5173) in your browser
+   This starts json-server on `http://localhost:3000` serving `src/db.json`. To switch to local json-server, update the baseUrl in `src/RTKQuery/apiSlice.js` to `http://localhost:3000`.
 
 ## Available Scripts
 
@@ -185,9 +206,10 @@ The `App.jsx` component handles all CRUD operations using RTK Query hooks:
 
 ### apiSlice.js
 
-- `baseQuery`: Uses `fetchBaseQuery` with base URL `http://localhost:3000`
+- `baseQuery`: Uses `fetchBaseQuery` with base URL `https://6913b815f34a2ff1170cf8f6.mockapi.io/api` (MockAPI)
 - `tagTypes`: Defines "Todos" tag for cache invalidation
 - Endpoints: getTodos, addTodos, updateTodos, deleteTodos
+- Update method: Uses PUT instead of PATCH for full resource updates
 - Cache invalidation: Mutations invalidate "Todos" tag to trigger refetch
 
 ### store.js
@@ -197,7 +219,9 @@ The `App.jsx` component handles all CRUD operations using RTK Query hooks:
 
 ## Mock Data
 
-The `db.json` file contains sample todo data:
+### Local Development (json-server)
+
+The `src/db.json` file contains sample todo data for local development:
 
 ```json
 {
@@ -210,6 +234,17 @@ The `db.json` file contains sample todo data:
   ]
 }
 ```
+
+### Production-like Testing (MockAPI)
+
+For production-like testing, the app uses [MockAPI.io](https://mockapi.io/projects) which provides:
+
+- Persistent data storage
+- RESTful API endpoints
+- No need to run local server
+- Real-world API simulation
+
+The MockAPI project ID is `6913b815f34a2ff1170cf8f6`, providing a stable base URL for testing.
 
 ## Contributing
 
