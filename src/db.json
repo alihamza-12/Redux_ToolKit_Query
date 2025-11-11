@@ -6,9 +6,9 @@
       "completed": false
     },
     {
-      "id": "2",
-      "text": "Finish homework",
-      "completed": true
+      "text": "Doing Work today",
+      "completed": true,
+      "id": "2"
     },
     {
       "id": "3",

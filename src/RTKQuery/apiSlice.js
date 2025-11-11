@@ -3,6 +3,10 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
+    //For LocalHost
+    // baseUrl: "http://localhost:3000",
+
+    // For Deploymnet
     baseUrl: "https://6913b815f34a2ff1170cf8f6.mockapi.io/api",
   }),
   //For Refresh
@@ -25,6 +29,10 @@ export const api = createApi({
     updateTodos: builder.mutation({
       query: ({ id, ...todo }) => ({
         url: `/todos/${id}`,
+        //For LocalHost
+        // method:"PATCH",
+
+        //For Deployment
         method: "PUT",
         body: todo,
       }),
