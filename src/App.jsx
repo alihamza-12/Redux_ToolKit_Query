@@ -15,6 +15,7 @@ function App() {
   const [addTodos] = useAddTodosMutation();
   // console.log(addTodos)
   const [updateTodo] = useUpdateTodosMutation();
+  const [deleteTodo] = useDeleteTodosMutation();
 
   //POST Method(Create)
   const handleInput = (e) => {
@@ -35,7 +36,10 @@ function App() {
       completed: !completed,
     });
   };
-
+  //DELETE
+  const removeTodo = (id) => {
+    deleteTodo({ id });
+  };
   // -----------------------------------------------------------------------------------------------------------
 
   if (isLoading) return <p className="text-center mt-10">Loading todos...</p>;

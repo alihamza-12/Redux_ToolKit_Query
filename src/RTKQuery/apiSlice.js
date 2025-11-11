@@ -21,6 +21,12 @@ export const api = createApi({
         body: todo,
       }),
     }),
+    deleteTodos: builder.mutation({
+      query: ({ id }) => ({
+        url: `/todos/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
